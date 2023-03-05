@@ -37,6 +37,8 @@ export default function AxiosUI({
     null
   );
 
+  const entries = React.useMemo(() => Object.entries({...axiosData}).reverse(), [axiosData]);
+
   return (
     <>
       <button
@@ -62,7 +64,7 @@ export default function AxiosUI({
           >
             Clear
           </button>
-          {Object.entries(axiosData).map(
+          {entries.map(
             ([debugRequestId, { request, response }]) => (
               <React.Fragment key={debugRequestId}>
                 <div

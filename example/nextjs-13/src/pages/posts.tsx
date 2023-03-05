@@ -36,7 +36,7 @@ export default function Posts(pageProps: PageProps) {
         style={{
           fontFamily: "monospace",
           maxWidth: "90vw",
-          maxHeight: "50vw",
+          maxHeight: "40vw",
           resize: "both",
           wordWrap: "break-word",
           whiteSpace: "pre-wrap",
