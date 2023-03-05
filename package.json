@@ -1,6 +1,6 @@
 {
     "name": "axios-ui",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "axios UI for request logs with a react component and ssr support",
     "main": "src/index.ts",
     "scripts": {
