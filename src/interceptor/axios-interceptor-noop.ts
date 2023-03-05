@@ -2,7 +2,7 @@ import { Axios, AxiosUIData } from "../types";
 
 export default class AxiosInterceptorNoop {
   constructor(
-    axios: Axios,
+    axios?: Axios,
     interceptId?: string,
     options?: { timeout?: number; debugHeader: { key: string; value: string } }
   ) {}
