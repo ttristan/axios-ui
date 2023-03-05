@@ -3,7 +3,7 @@ import { DEBUG_HEADER, IS_DEV } from "@/constats";
 
 import axios, { AxiosResponse } from "axios";
 import { registerAxiosInterceptor } from "axios-ui";
-import { AxiosUIData } from "axios-ui/types";
+import { AxiosUIData } from "axios-ui";
 
 export default async function getPosts(): Promise<
   AxiosResponse & { axiosUIData: AxiosUIData }

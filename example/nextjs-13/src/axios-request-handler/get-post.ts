@@ -2,7 +2,7 @@ import { getExamplePost } from "@/axios-request-handler/request-json-placeholder
 import { DEBUG_HEADER, IS_DEV } from "@/constats";
 
 import { registerAxiosInterceptor } from "axios-ui";
-import { AxiosUIData } from "axios-ui/types";
+import { AxiosUIData } from "axios-ui";
 import axios, { AxiosResponse } from "axios";
 
 export default async function getPost(

@@ -3,7 +3,7 @@
     "version": "0.1.1",
     "description": "axios UI for request logs with a react component and ssr support",
     "main": "src/index.ts",
-    "types": "src/types.ts",
+    "types": "src/index.ts",
     "scripts": {
         "build": "rm -rf dist && npx tsc"
     },
