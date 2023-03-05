@@ -58,12 +58,12 @@ export const getServerSideProps = async (context) => {
 };
 ```
 
-- embed AxiosUI in your App (\_app.ts)
+- embed AxiosUI in your App (`\_app.ts`)
 
 ```jsx
 export default function App({ Component, pageProps }: AppProps) {
   <>
-    <AxiosUI initialData={pageProps.axiosUIData} />
+    <AxiosUIWrapperSSR axios={axios} initialData={pageProps.axiosUIData} />
     <Component {...pageProps} />
   </>;
 }
