@@ -16,15 +16,15 @@ const buildHeaders = (debugToken?: string) => {
   }
 }
 
-export const getExamplePost = (id: string, debugToken?: string) => {
+export const getExampleEntry = (id: string, debugToken?: string) => {
   return axios.get(`https://jsonplaceholder.typicode.com/posts/${id}?userId=1`, buildHeaders(debugToken));
 };
 
-export const getExamplePosts = (debugToken?: string) => {
+export const getExampleEntries = (debugToken?: string) => {
   return axios.get(`https://jsonplaceholder.typicode.com/posts?userId=1`, buildHeaders(debugToken));
 };
 
-export const postExamplePost = (debugToken?: string) => {
+export const postExampleEntry = (debugToken?: string) => {
   return axios.post('https://jsonplaceholder.typicode.com/posts', {
     method: 'POST',
     body: JSON.stringify({

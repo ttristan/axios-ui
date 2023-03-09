@@ -22,7 +22,7 @@ npm install axios-ui --save-dev
 > Example available in `/example/nextjs-13`
 
 #### Next.js Pages using getServerSideProps
-> see Example: `/example/nextjs-13/pages/posts.ts`
+> see Example: `/example/nextjs-13/pages/index.ts`
 
 - each route using the interceptor should add `axiosUIData` to the page props
 
@@ -70,7 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
 ```
 
 #### Next.js /api Routes
-> see Example: `/example/nextjs-13/pages/api/get-post/[id].ts`
+> see Example: `/example/nextjs-13/pages/api/get-entry/[id].ts`
 
 - Next.js api route responses should return the axiosUIData object for the client to pick up
 

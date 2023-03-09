@@ -1,13 +1,20 @@
-import { postExamplePost } from "@/axios-request-handler/request-json-placeholder";
+import { getExampleEntry } from "@/axios-request-handler/json-placeholder-api-service";
 import { DEBUG_HEADER, IS_DEV } from "@/constats";
 
 import { registerAxiosInterceptor } from "axios-ui";
 import { AxiosUIData } from "axios-ui";
 import axios, { AxiosResponse } from "axios";
 
-export default async function postPost(): Promise<
-  AxiosResponse & { axiosUIData: AxiosUIData }
-> {
+export default async function getEntry(
+  query: Partial<{
+    [key: string]: string | string[];
+  }>
+): Promise<AxiosResponse & { axiosUIData: AxiosUIData }> {
+  const { id } = query;
+  if (typeof id !== "string") {
+    throw "id is not a string";
+  }
+
   // register the interceptor, here using the helper to disable the logger for production and with a debug token as a request header
   const { axiosInterceptor, debugToken } = registerAxiosInterceptor(
     axios,
@@ -16,7 +23,7 @@ export default async function postPost(): Promise<
   );
   axiosInterceptor.intercept();
 
-  const result = await postExamplePost(debugToken);
+  const result = await getExampleEntry(id, debugToken);
 
   const axiosUIData = axiosInterceptor.getData();
 

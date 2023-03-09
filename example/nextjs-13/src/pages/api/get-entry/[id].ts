@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import getPost from "@/axios-request-handler/get-post";
+import getEntry from "@/axios-request-handler/get-entry";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
-    const result = await getPost(request.query);
+    const result = await getEntry(request.query);
 
     return response.status(result.status).send(result);
   } catch (error) {
