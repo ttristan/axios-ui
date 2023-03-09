@@ -5,7 +5,9 @@
     "main": "dist/index.js",
     "scripts": {
         "build": "rm -rf dist && npx tsc",
-        "prepack": "npm run build"
+        "prepack": "npm run build",
+        "release:patch": "npm version minor && npm publish",
+        "release:minor": "npm version minor && npm publish"
     },
     "keywords": [
         "axios",
