@@ -46,7 +46,13 @@ export default class AxiosInterceptor {
         if (this.debugHeader) {
           // bail if the expected debug header value is not set
           const { key, value } = this.debugHeader;
-          if (config.headers.get(key) !== value) {
+          // POST request
+          if (config.data) {
+            if (config.data.headers[key] !== value) {
+              return config;
+            }
+            // GET request
+          } else if (config.headers.get(key) !== value) {
             return config;
           }
         }
@@ -64,7 +70,7 @@ export default class AxiosInterceptor {
       },
       (error) => {
         this.clear();
-        return Promise.reject(error);
+        return error;
       }
     );
 
@@ -88,7 +94,7 @@ export default class AxiosInterceptor {
       },
       (error) => {
         this.clear();
-        return Promise.reject(error);
+        return error;
       }
     );
 
@@ -164,9 +170,7 @@ export default class AxiosInterceptor {
     };
   }
 
-  public getData(
-    options: { eject: boolean } = { eject: true }
-  ): AxiosUIData {
+  public getData(options: { eject: boolean } = { eject: true }): AxiosUIData {
     if (options.eject) {
       // eject interceptors when data is consumed to clean up listeners
       this.eject();

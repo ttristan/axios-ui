@@ -27,30 +27,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 };
 
+type Post = {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+}
+
 export default function Posts(pageProps: PageProps) {
-  const [posts, setPosts] = React.useState(pageProps.data);
+  const [posts, setPosts] = React.useState<Post[]>(pageProps.data);
 
   return (
-    <>
-      <pre
-        style={{
-          fontFamily: "monospace",
-          maxWidth: "90vw",
-          maxHeight: "40vw",
-          resize: "both",
-          wordWrap: "break-word",
-          whiteSpace: "pre-wrap",
-          overflow: "scroll",
-          backgroundColor: "rgb(16, 22, 29)",
-          padding: 10,
-        }}
-      >
-        {JSON.stringify(posts, null, 2)}
-      </pre>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        maxWidth: "90vw",
+      }}
+    >
+      {posts.map((post) => (
+        <div
+        key={`${post.id}`}
+          style={{
+            backgroundColor: "rgb(16, 22, 29)",
+            padding: 10,
+          }}
+        >
+          {post.title}
+        </div>
+      ))}
+
       <button
         style={{ marginTop: 16 }}
         onClick={() => {
-          const nextId = posts.at(-1).id + 1;
+          const nextId = (posts.filter(post => post.userId === 1).at(-1)?.id ?? 0) + 1;
           axios.get(`/api/get-post/${nextId}`).then((res) => {
             setPosts([...posts, res.data]);
           });
@@ -58,6 +69,16 @@ export default function Posts(pageProps: PageProps) {
       >
         Load more...
       </button>
-    </>
+      <button
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          axios.get(`/api/post-post`).then((res) => {
+            setPosts([...posts, {...JSON.parse(res.data.body), id: res.data.id}]);
+          });
+        }}
+      >
+        POST something
+      </button>
+    </div>
   );
 }

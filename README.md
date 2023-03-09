@@ -7,7 +7,7 @@
 * [x] make it work
 * [x] Next.js example
 * [ ] Add client side example (using vite, esbuild or similar)
-* [ ] Add examples for POST/PATCH/PUT/DELETE requests
+* [ ] Add examples for POST/PATCH/PUT/DELETE + failing requests
 * [ ] Update Docs
 
 ## How To Use
