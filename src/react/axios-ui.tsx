@@ -37,7 +37,10 @@ export default function AxiosUI({
     null
   );
 
-  const entries = React.useMemo(() => Object.entries({...axiosData}).reverse(), [axiosData]);
+  const entries = React.useMemo(
+    () => Object.entries({ ...axiosData }).reverse(),
+    [axiosData]
+  );
 
   return (
     <>
@@ -64,63 +67,62 @@ export default function AxiosUI({
           >
             Clear
           </button>
-          {entries.map(
-            ([debugRequestId, { request, response }]) => (
-              <React.Fragment key={debugRequestId}>
-                <div
-                  onClick={() =>
-                    selectedRequest === debugRequestId
-                      ? setSelectedRequest(null)
-                      : setSelectedRequest(debugRequestId)
-                  }
-                  className="requestRow"
-                  style={styles.requestRow}
-                >
-                  <div
-                    className={`method method${request.method}`}
-                    style={{
-                      ...styles.method,
-                      ...getStyle(styles, `method${request.method}`),
-                    }}
-                  >
-                    {request.method}
-                  </div>
-                  <div>{new Date(request.time).toLocaleTimeString()}</div>
-                  {request.debugToken && (
-                    <div>{request.debugToken.substring(0, 5)}</div>
-                  )}
-                  <Url
-                    renderShortUrl={renderShortUrl}
-                    request={request}
-                    selectedRequest={selectedRequest}
-                    debugRequestId={debugRequestId}
-                    styles={styles}
-                  />
-                </div>
-                {selectedRequest === debugRequestId && (
-                  <div className="selectedRequest" style={styles.selectedRequest}>
-                    <div className="date" style={styles.date}>
-                      {new Date(request.time).toLocaleString()}{" "}
-                      {response && `(${response.time - request.time}ms)`}
-                    </div>
-                    <div>
-                      <b>Request Headers</b>
-                      <pre className="pre" style={styles.pre}>
-                        {JSON.stringify(request.headers, null, 2)}
-                      </pre>
-                    </div>
-                    {response && (
-                      <Response
-                        response={response}
-                        styles={styles}
-                        maxInitialResponseLength={maxInitialResponseLength}
-                      />
-                    )}
-                  </div>
+          {entries.map(([debugRequestId, { request, response }]) => (
+            <React.Fragment key={debugRequestId}>
+              <div
+                onClick={() =>
+                  selectedRequest === debugRequestId
+                    ? setSelectedRequest(null)
+                    : setSelectedRequest(debugRequestId)
+                }
+                className="requestRow"
+                style={styles.requestRow}
+              >
+                <div>{new Date(request.time).toLocaleTimeString()}</div>
+                {request.debugToken && (
+                  <div>{request.debugToken.substring(0, 5)}</div>
                 )}
-              </React.Fragment>
-            )
-          )}
+                <div
+                  className={`method method${request.method}`}
+                  style={{
+                    ...styles.method,
+                    ...getStyle(styles, `method${request.method}`),
+                  }}
+                >
+                  {request.method}
+                </div>
+                <Url
+                  renderShortUrl={renderShortUrl}
+                  request={request}
+                  selectedRequest={selectedRequest}
+                  debugRequestId={debugRequestId}
+                  styles={styles}
+                />
+              </div>
+              {selectedRequest === debugRequestId && (
+                <div className="selectedRequest" style={styles.selectedRequest}>
+                  <div className="requestDetail" style={styles.requestDetail}>
+                    {new Date(request.time).toLocaleString()}{" "}
+                    {response && `(${response.time - request.time}ms)`}
+                  </div>
+                  <div className="requestDetail" style={styles.requestDetail}>{request.url}</div>
+                  <div>
+                    <b>Request Headers</b>
+                    <pre className="pre" style={styles.pre}>
+                      {JSON.stringify(request.headers, null, 2)}
+                    </pre>
+                  </div>
+                  {response && (
+                    <Response
+                      response={response}
+                      styles={styles}
+                      maxInitialResponseLength={maxInitialResponseLength}
+                    />
+                  )}
+                </div>
+              )}
+            </React.Fragment>
+          ))}
         </div>
       )}
     </>

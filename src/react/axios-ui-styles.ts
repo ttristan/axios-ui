@@ -23,7 +23,7 @@ const styles = createStyles({
     flexDirection: "column",
     gap: "10px",
     zIndex: "99999",
-    fontSize: "80%",
+    fontSize: "90%",
     paddingBottom: "60px",
   },
 
@@ -85,7 +85,7 @@ const styles = createStyles({
     gap: "10px",
     paddingLeft: "10px",
     borderLeft: "4px solid rgb(31, 43, 57)",
-    marginLeft: "30px",
+    marginLeft: "42px",
     marginBottom: "20px",
   },
 
@@ -96,6 +96,7 @@ const styles = createStyles({
 
   method: {
     display: "flex",
+    minWidth: 32,
   },
 
   methodGET: {
@@ -126,7 +127,7 @@ const styles = createStyles({
     display: "block",
   },
 
-  date: {
+  requestDetail: {
     fontFamily: "monospace",
     color: "rgb(133, 149, 167)",
   },
