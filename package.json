@@ -1,6 +1,6 @@
 {
-  "name": "@ttristan/axios-ui",
-  "version": "0.3.3",
+  "name": "axios-ui",
+  "version": "0.3.2",
   "description": "axios UI for request logs with a react component and SSR (Next.js) support",
   "main": "dist/index.js",
   "scripts": {
@@ -30,8 +30,5 @@
   },
   "peerDependencies": {
     "axios": ">=1.2.5"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   }
 }
