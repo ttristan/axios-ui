@@ -139,11 +139,16 @@ export default class AxiosInterceptor {
     debugRequestId: string,
     request: InterceptedAxiosRequest
   ) {
-    const { url, headers, method } = request;
+    const { url, headers, method, data } = request;
+
     let headersObject: Record<string, string> = {};
 
-    for (const headerName in headers) {
-      headersObject[headerName] = String(headers.get(headerName));
+    if (data?.body && data.headers) {
+      headersObject = data.headers;
+    } else {
+      for (const headerName in headers) {
+        headersObject[headerName] = String(headers.get(headerName));
+      }
     }
 
     this.requests[interceptId] = {
@@ -156,6 +161,7 @@ export default class AxiosInterceptor {
           url: url ?? "",
           headers: headersObject,
           time: Date.now(),
+          body: data?.body ? JSON.parse(data.body) : null,
         },
       },
     };

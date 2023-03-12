@@ -101,7 +101,6 @@ export default function Home(pageProps: PageProps) {
             })
             .then((res) => {
               const updatedEntries = entries.map((entry) => {
-                console.log(entry);
                 if (entry.id !== 1 || entry.userId !== 1) {
                   return entry;
                 }

@@ -115,6 +115,12 @@ export default function AxiosUI({
                       {JSON.stringify(request.headers, null, 2)}
                     </pre>
                   </div>
+                  {request.body && <div>
+                    <b>Request Body</b>
+                    <pre className="pre" style={styles.pre}>
+                      {JSON.stringify(request.body, null, 2)}
+                    </pre>
+                  </div>}
                   {response ? (
                     <Response
                       response={response}

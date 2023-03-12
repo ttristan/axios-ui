@@ -26,6 +26,7 @@ export type AxiosUIRequestData = {
   url: string;
   headers: Record<string, string>;
   time: number;
+  body: Object | null;
 };
 export type AxiosUIResponseData = {
   requestId: string;
@@ -35,7 +36,7 @@ export type AxiosUIResponseData = {
   time: number;
 };
 
-export type InterceptedAxiosRequest = InternalAxiosRequestConfig<unknown>;
+export type InterceptedAxiosRequest = InternalAxiosRequestConfig;
 export type InterceptedAxiosResponse<T = unknown, D = unknown> = AxiosResponse<
   T,
   D
