@@ -67,7 +67,7 @@ export default function Home(pageProps: PageProps) {
           });
         }}
       >
-        Load more...
+        Test: Load more... (GET)
       </button>
       <button
         style={{ marginTop: 16 }}
@@ -77,7 +77,17 @@ export default function Home(pageProps: PageProps) {
           });
         }}
       >
-        POST something
+        Test: POST
+      </button>
+      <button
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          axios.get(`/api/get-entry/1949999`).then((res) => {
+            setEntries([...entries, res.data]);
+          }).catch(e => e);
+        }}
+      >
+        Test: Failed request
       </button>
     </div>
   );

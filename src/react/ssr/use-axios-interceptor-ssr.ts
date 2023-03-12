@@ -19,11 +19,19 @@ export default function useAxiosInterceptorSSR(axios: Axios) {
         }>
       ) => {
         const { axiosUIData } = response.data;
-        delete response.data.axiosUIData;
         if (axiosUIData) {
+          delete response.data.axiosUIData;
           addData(axiosUIData);
         }
         return response;
+      },
+      (error) => {
+        const axiosUIData = error?.response?.data?.axiosUIData;
+
+        if (axiosUIData) {
+          delete error.response.data.axiosUIData;
+          addData(axiosUIData);
+        }
       }
     );
     intercepted.current = true;

@@ -22,7 +22,7 @@ export default function AxiosUI({
   renderShortUrl,
   options,
 }: AxiosUIProps) {
-  const { maxInitialResponseLength = 500, disableInlineStyles = false } =
+  const { maxInitialResponseLength = 1000, disableInlineStyles = false } =
     options || {};
   const styles =
     disableInlineStyles === true
@@ -97,6 +97,7 @@ export default function AxiosUI({
                   selectedRequest={selectedRequest}
                   debugRequestId={debugRequestId}
                   styles={styles}
+                  hasResponse={!!response}
                 />
               </div>
               {selectedRequest === debugRequestId && (
@@ -105,19 +106,25 @@ export default function AxiosUI({
                     {new Date(request.time).toLocaleString()}{" "}
                     {response && `(${response.time - request.time}ms)`}
                   </div>
-                  <div className="requestDetail" style={styles.requestDetail}>{request.url}</div>
+                  <div className="requestDetail" style={styles.requestDetail}>
+                    {request.url}
+                  </div>
                   <div>
                     <b>Request Headers</b>
                     <pre className="pre" style={styles.pre}>
                       {JSON.stringify(request.headers, null, 2)}
                     </pre>
                   </div>
-                  {response && (
+                  {response ? (
                     <Response
                       response={response}
                       styles={styles}
                       maxInitialResponseLength={maxInitialResponseLength}
                     />
+                  ) : (
+                    <div className="requestFailed" style={styles.requestFailed}>
+                      <i>Request failed</i>
+                    </div>
                   )}
                 </div>
               )}
@@ -135,16 +142,23 @@ const Url = ({
   selectedRequest,
   styles,
   renderShortUrl,
+  hasResponse,
 }: {
   request: AxiosUIRequestData;
   debugRequestId: string;
   selectedRequest: string | null;
   styles: Styles;
   renderShortUrl: AxiosUIProps["renderShortUrl"];
+  hasResponse: boolean;
 }) => {
   const isSelected = selectedRequest === debugRequestId;
-  const style = { ...styles.url, ...(!isSelected ? styles.urlCollapsed : {}) };
-  const className = "url" + !isSelected && "urlCollapsed";
+  const style = {
+    ...styles.url,
+    ...(!isSelected ? styles.urlCollapsed : {}),
+    ...(!hasResponse ? styles.urlNoResponse : {}),
+  };
+  const className =
+    "url" + !isSelected && " urlCollapsed" + !hasResponse && " urlNoResponse";
 
   return (
     <div className={className} style={style}>

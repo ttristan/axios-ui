@@ -43,58 +43,70 @@ export default class AxiosInterceptor {
   public intercept(): void {
     this.requestInterceptor = this.axios.interceptors.request.use(
       (config) => {
-        if (this.debugHeader) {
+        try {
           // bail if the expected debug header value is not set
-          const { key, value } = this.debugHeader;
-          // POST request
-          if (config.data) {
-            if (config.data.headers[key] !== value) {
+          if (this.debugHeader) {
+            const { key, value } = this.debugHeader;
+            if (
+              typeof config.headers?.get === "function" &&
+              config.headers.get(key) !== value
+            ) {
               return config;
             }
-            // GET request
-          } else if (config.headers.get(key) !== value) {
-            return config;
+            if (config.data?.headers && config.data.headers[key] !== value) {
+              return config;
+            }
           }
+
+          const debugRequestId = getUuid();
+
+          this.addRequest(this.interceptId, debugRequestId, config);
+
+          const interceptedConfig: InterceptedAxiosResponse["config"] = {
+            ...config,
+            _debugRequestId: debugRequestId,
+            _debugInterceptId: this.interceptId,
+          };
+          return interceptedConfig;
+        } catch (error) {
+          console.error("Error in Axios UI (Request Interceptor)", error);
+          return config;
         }
-
-        const debugRequestId = getUuid();
-
-        this.addRequest(this.interceptId, debugRequestId, config);
-
-        const interceptedConfig: InterceptedAxiosResponse["config"] = {
-          ...config,
-          _debugRequestId: debugRequestId,
-          _debugInterceptId: this.interceptId,
-        };
-        return interceptedConfig;
       },
       (error) => {
         this.clear();
-        return error;
+        console.error('Axios UI:', error.message)
+        return Promise.resolve(error.config);
       }
     );
 
     this.responseInterceptor = this.axios.interceptors.response.use(
       (response: InterceptedAxiosResponse) => {
-        const debugRequestId = response.config._debugRequestId;
-        const debugInterceptId = response.config._debugInterceptId;
+        try {
+          const debugRequestId = response.config._debugRequestId;
+          const debugInterceptId = response.config._debugInterceptId;
 
-        if (this.interceptId !== debugInterceptId) {
-          // do not intercept unrelated responses
+          if (this.interceptId !== debugInterceptId) {
+            // do not handle unrelated responses
+            return response;
+          }
+          if (!debugRequestId) {
+            throw `debugRequestId missing in response config: ${JSON.stringify(
+              response.config
+            )}`;
+          }
+          this.addResponse(this.interceptId, debugRequestId, response);
+
+          return response;
+        } catch (error) {
+          console.error("Error in Axios UI (Response Interceptor)", error);
           return response;
         }
-        if (!debugRequestId) {
-          throw `debugRequestId missing in response config: ${JSON.stringify(
-            response.config
-          )}`;
-        }
-        this.addResponse(this.interceptId, debugRequestId, response);
-
-        return response;
       },
       (error) => {
         this.clear();
-        return error;
+        console.error('Axios UI:', error.message)
+        return Promise.resolve(error.response);
       }
     );
 

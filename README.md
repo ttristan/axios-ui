@@ -6,6 +6,8 @@
 
 * [x] make it work
 * [x] Next.js example
+* [x] Show request without responses and errors
+* [ ] Add request body log for POST/PUT/PATCH/DELETE
 * [ ] Add client side example (using vite, esbuild or similar)
 * [ ] Add examples for POST/PATCH/PUT/DELETE + failing requests
 * [ ] Update Docs

@@ -4,6 +4,20 @@ import { CSSProperties } from "react";
 const createStyles = <T extends { [name: string]: CSSProperties }>(styles: T) =>
   styles;
 
+const colors = {
+  white: "#fff",
+  icon: '#5A2AE4',
+  background: "rgb(34, 46, 62)",
+  red: "rgb(232, 68, 68)",
+  green: "rgb(33, 182, 33)",
+  orange: "orange",
+  blue: "rgb(113, 113, 255)",
+  muted: "rgb(133, 149, 167)",
+  buttonBackground: "rgb(63, 78, 96)",
+  codeBackground: "rgb(16, 22, 29)",
+  codeBorder: "rgb(31, 43, 57)",
+};
+
 const styles = createStyles({
   devtools: {
     position: "fixed",
@@ -13,8 +27,8 @@ const styles = createStyles({
     height: "40vh",
     minHeight: "20vh",
     maxHeight: "80vh",
-    backgroundColor: "rgb(34, 46, 62)",
-    color: "#fff",
+    backgroundColor: colors.background,
+    color: colors.white,
     padding: "10px",
     overflowY: "auto",
     width: "100%",
@@ -28,27 +42,27 @@ const styles = createStyles({
   },
 
   icon: {
-    border: 'none',
+    border: "none",
     cursor: "pointer",
     width: "40px",
     height: "40px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    fill: "#5A2AE4",
-    backgroundColor: 'transparent',
+    fill: colors.icon,
+    backgroundColor: "transparent",
   },
 
   button: {
-    border: 'none',
+    border: "none",
     position: "fixed",
     bottom: "10px",
-    backgroundColor: "rgb(63, 78, 96)",
+    backgroundColor: colors.buttonBackground,
     padding: "2px 4px",
     borderRadius: "4px",
     fontWeight: "bold",
     cursor: "pointer",
-    fontSize: '80%',
+    fontSize: "80%",
   },
 
   clearButton: {
@@ -62,7 +76,7 @@ const styles = createStyles({
     minHeight: "30px",
     maxHeight: "28vh",
     overflowY: "auto",
-    backgroundColor: "rgb(16, 22, 29)",
+    backgroundColor: colors.codeBackground,
     padding: "10px",
     borderRadius: "4px",
     maxWidth: "100%",
@@ -84,14 +98,9 @@ const styles = createStyles({
     flexDirection: "column",
     gap: "10px",
     paddingLeft: "10px",
-    borderLeft: "4px solid rgb(31, 43, 57)",
+    borderLeft: `4px solid ${colors.codeBorder}`,
     marginLeft: "42px",
     marginBottom: "20px",
-  },
-
-  selectedRequestTitle: {
-    display: "block",
-    color: "rgb(113, 131, 152)",
   },
 
   method: {
@@ -100,24 +109,28 @@ const styles = createStyles({
   },
 
   methodGET: {
-    color: "rgb(33, 182, 33)",
+    color: colors.green,
   },
 
   methodPOST: {
-    color: "orange",
+    color: colors.orange,
   },
 
   methodDELETE: {
-    color: "rgb(255, 15, 15)",
+    color: colors.red,
   },
 
   methodPUT: {
-    color: "rgb(113, 113, 255)",
+    color: colors.blue,
   },
 
   url: {
     fontFamily: "monospace",
     wordBreak: "break-all",
+  },
+
+  urlNoResponse: {
+    color: colors.red,
   },
 
   urlCollapsed: {
@@ -129,15 +142,19 @@ const styles = createStyles({
 
   requestDetail: {
     fontFamily: "monospace",
-    color: "rgb(133, 149, 167)",
+    color: colors.muted,
   },
 
   showFullResponse: {
-    border: 'none',
-    backgroundColor: 'transparent',
+    border: "none",
+    backgroundColor: "transparent",
     marginTop: "5px",
     cursor: "pointer",
   },
+
+  requestFailed: {
+    color: colors.red
+  }
 });
 
 export default styles;
