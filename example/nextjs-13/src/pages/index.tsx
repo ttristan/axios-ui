@@ -144,13 +144,12 @@ export default function Home(pageProps: PageProps) {
           axios
             .delete(`/api/delete-entry/5`)
             .then((res) => {
-              console.log("res", res);
               const updatedEntries = entries.filter(entry => entry.id !== 5);
               setEntries(updatedEntries);
             });
         }}
       >
-        Test: Delete
+        Test: DELETE
       </button>
       <button
         style={{ marginTop: 16 }}

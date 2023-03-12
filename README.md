@@ -17,7 +17,7 @@
 ### Example: Next.js
 
 ```
-cd expample/nextjs-13
+cd example/nextjs-13
 npm install
 npm run dev
 ```
