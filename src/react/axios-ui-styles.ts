@@ -13,6 +13,7 @@ const colors = {
   orange: "orange",
   blue: "rgb(38, 171, 218)",
   blueDark: "rgb(113, 113, 255)",
+  purple: "rgb(213, 49, 235)",
   muted: "rgb(133, 149, 167)",
   buttonBackground: "rgb(63, 78, 96)",
   codeBackground: "rgb(16, 22, 29)",
@@ -106,7 +107,7 @@ const styles = createStyles({
 
   method: {
     display: "flex",
-    minWidth: 32,
+    minWidth: 52,
   },
 
   methodGET: {
@@ -115,6 +116,10 @@ const styles = createStyles({
 
   methodPOST: {
     color: colors.orange,
+  },
+
+  methodPATCH: {
+    color: colors.purple,
   },
 
   methodDELETE: {

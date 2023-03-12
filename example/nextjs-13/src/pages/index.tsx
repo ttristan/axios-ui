@@ -96,7 +96,7 @@ export default function Home(pageProps: PageProps) {
             .put(`/api/put-entry/1`, {
               id: 1,
               uderId: 1,
-              title: `Updated Entry (${Math.random().toString()})`,
+              title: `Updated Entry (PUT) (${Math.random().toString()})`,
               body: "Some body",
             })
             .then((res) => {
@@ -119,7 +119,47 @@ export default function Home(pageProps: PageProps) {
         style={{ marginTop: 16 }}
         onClick={() => {
           axios
-            .get(`/api/get-entry/1949999`)
+            .patch(`/api/patch-entry/1`, {
+              title: `Updated Entry (PATCH) (${Math.random().toString()})`,
+            })
+            .then((res) => {
+              const updatedEntries = entries.map((entry) => {
+                if (entry.id !== 1 || entry.userId !== 1) {
+                  return entry;
+                }
+                return {
+                  ...entry,
+                  ...JSON.parse(res.data.body),
+                };
+              });
+              setEntries(updatedEntries);
+            });
+        }}
+      >
+        Test: PATCH
+      </button>
+      <button
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          axios
+            .delete(`/api/delete-entry/5`)
+            .then((res) => {
+              console.log("res", res);
+              const updatedEntries = entries.filter(entry => entry.id !== 5);
+              setEntries(updatedEntries);
+            });
+        }}
+      >
+        Test: Delete
+      </button>
+      <button
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          axios
+            .put(`/api/put-entry/11224444`, {
+              title: `Updated Entry (PUT) (${Math.random().toString()})`,
+              body: "Some body",
+            })
             .then((res) => {
               setEntries([...entries, res.data]);
             })

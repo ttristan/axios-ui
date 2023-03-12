@@ -45,3 +45,23 @@ export const putExampleEntry = (id: string, body: Object, debugToken?: string) =
     },
   })
 }
+
+export const patchExampleEntry = (id: string, body: Object, debugToken?: string) => {
+  return axios.patch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+      ...buildHeaders(debugToken).headers,
+    },
+  })
+}
+
+export const deleteExampleEntry = (id: string, debugToken?: string) => {
+  return axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...buildHeaders(debugToken).headers,
+    },
+  })
+}
