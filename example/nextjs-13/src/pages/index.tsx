@@ -32,7 +32,7 @@ type Entry = {
   title: string;
   body: string;
   userId: number;
-}
+};
 
 export default function Home(pageProps: PageProps) {
   const [entries, setEntries] = React.useState<Entry[]>(pageProps.data);
@@ -48,7 +48,7 @@ export default function Home(pageProps: PageProps) {
     >
       {entries.map((entry) => (
         <div
-        key={`${entry.id}`}
+          key={`${entry.id}`}
           style={{
             backgroundColor: "rgb(16, 22, 29)",
             padding: 10,
@@ -61,7 +61,8 @@ export default function Home(pageProps: PageProps) {
       <button
         style={{ marginTop: 16 }}
         onClick={() => {
-          const nextId = (entries.filter(entry => entry.userId === 1).at(-1)?.id ?? 0) + 1;
+          const nextId =
+            (entries.filter((entry) => entry.userId === 1).at(-1)?.id ?? 0) + 1;
           axios.get(`/api/get-entry/${nextId}`).then((res) => {
             setEntries([...entries, res.data]);
           });
@@ -72,9 +73,18 @@ export default function Home(pageProps: PageProps) {
       <button
         style={{ marginTop: 16 }}
         onClick={() => {
-          axios.get(`/api/post-entry`).then((res) => {
-            setEntries([...entries, {...JSON.parse(res.data.body), id: res.data.id}]);
-          });
+          axios
+            .post(`/api/post-entry`, {
+              title: "Some example",
+              body: "Some body",
+              userId: 12,
+            })
+            .then((res) => {
+              setEntries([
+                ...entries,
+                { ...JSON.parse(res.data.body), id: res.data.id },
+              ]);
+            });
         }}
       >
         Test: POST
@@ -82,9 +92,12 @@ export default function Home(pageProps: PageProps) {
       <button
         style={{ marginTop: 16 }}
         onClick={() => {
-          axios.get(`/api/get-entry/1949999`).then((res) => {
-            setEntries([...entries, res.data]);
-          }).catch(e => e);
+          axios
+            .get(`/api/get-entry/1949999`)
+            .then((res) => {
+              setEntries([...entries, res.data]);
+            })
+            .catch((e) => e);
         }}
       >
         Test: Failed request

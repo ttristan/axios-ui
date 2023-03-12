@@ -49,11 +49,12 @@ export default class AxiosInterceptor {
             const { key, value } = this.debugHeader;
             if (
               typeof config.headers?.get === "function" &&
+              config.headers.get(key) !== undefined &&
               config.headers.get(key) !== value
             ) {
               return config;
             }
-            if (config.data?.headers && config.data.headers[key] !== value) {
+            if (config.data?.headers?.[key] && config.data.headers[key] !== value) {
               return config;
             }
           }
@@ -75,7 +76,7 @@ export default class AxiosInterceptor {
       },
       (error) => {
         this.clear();
-        console.error('Axios UI:', error.message)
+        console.error("Axios UI:", error.message);
         return Promise.resolve(error.config);
       }
     );
@@ -105,7 +106,7 @@ export default class AxiosInterceptor {
       },
       (error) => {
         this.clear();
-        console.error('Axios UI:', error.message)
+        console.error("Axios UI:", error.message);
         return Promise.resolve(error.response);
       }
     );

@@ -24,14 +24,10 @@ export const getExampleEntries = (debugToken?: string) => {
   return axios.get(`https://jsonplaceholder.typicode.com/posts?userId=1`, buildHeaders(debugToken));
 };
 
-export const postExampleEntry = (debugToken?: string) => {
+export const postExampleEntry = (body: Object, debugToken?: string) => {
   return axios.post('https://jsonplaceholder.typicode.com/posts', {
     method: 'POST',
-    body: JSON.stringify({
-      title: 'Some example',
-      body: 'Some body',
-      userId: 12,
-    }),
+    body: JSON.stringify(body),
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
       ...buildHeaders(debugToken).headers,

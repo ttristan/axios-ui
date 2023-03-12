@@ -3,7 +3,7 @@ import postEntry from '@/axios-request-handler/post-entry';
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
-    const result = await postEntry();
+    const result = await postEntry(request.body);
 
     return response.status(result.status).send(result);
   } catch (error) {
