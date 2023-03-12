@@ -1,14 +1,15 @@
-import { getExampleEntry } from "@/axios-request-handler/json-placeholder-api-service";
+import { putExampleEntry } from "@/axios-request-handler/json-placeholder-api-service";
 import { DEBUG_HEADER, IS_DEV } from "@/constats";
 
 import { registerAxiosInterceptor } from "axios-ui";
 import { AxiosUIData } from "axios-ui";
 import axios, { AxiosResponse } from "axios";
 
-export default async function getEntry(
+export default async function putEntry(
   query: Partial<{
     [key: string]: string | string[];
-  }>
+  }>,
+  body: Object
 ): Promise<AxiosResponse & { axiosUIData: AxiosUIData }> {
   const { id } = query;
   if (typeof id !== "string") {
@@ -23,7 +24,7 @@ export default async function getEntry(
   );
   axiosInterceptor.intercept();
 
-  const result = await getExampleEntry(id, debugToken);
+  const result = await putExampleEntry(id, body, debugToken);
 
   const axiosUIData = axiosInterceptor.getData();
 

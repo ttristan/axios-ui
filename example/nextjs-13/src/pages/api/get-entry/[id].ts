@@ -6,8 +6,8 @@ export default async function handler(request: NextApiRequest, response: NextApi
     const result = await getEntry(request.query);
 
     return response.status(result.status).send(result);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return response.status(500);
+    return response.status(error.status ?? 500).send(error.message);
   }
 };

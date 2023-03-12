@@ -34,3 +34,14 @@ export const postExampleEntry = (body: Object, debugToken?: string) => {
     },
   })
 }
+
+export const putExampleEntry = (id: string, body: Object, debugToken?: string) => {
+  return axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+      ...buildHeaders(debugToken).headers,
+    },
+  })
+}

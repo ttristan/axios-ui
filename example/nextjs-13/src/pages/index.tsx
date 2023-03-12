@@ -93,6 +93,33 @@ export default function Home(pageProps: PageProps) {
         style={{ marginTop: 16 }}
         onClick={() => {
           axios
+            .put(`/api/put-entry/1`, {
+              id: 1,
+              uderId: 1,
+              title: `Updated Entry (${Math.random().toString()})`,
+              body: "Some body",
+            })
+            .then((res) => {
+              const updatedEntries = entries.map((entry) => {
+                console.log(entry);
+                if (entry.id !== 1 || entry.userId !== 1) {
+                  return entry;
+                }
+                return {
+                  ...entry,
+                  ...JSON.parse(res.data.body),
+                };
+              });
+              setEntries(updatedEntries);
+            });
+        }}
+      >
+        Test: PUT
+      </button>
+      <button
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          axios
             .get(`/api/get-entry/1949999`)
             .then((res) => {
               setEntries([...entries, res.data]);
