@@ -12,6 +12,16 @@
 * [ ] Add client side example (using vite, esbuild or similar)
 * [ ] Update Docs
 
+
+## Demo
+### Example: Next.js
+
+```
+cd expample/nextjs-13
+npm install
+npm run dev
+```
+
 ## How To Use
 
 ### Getting Started
@@ -20,7 +30,7 @@
 npm install axios-ui --save-dev
 ```
 
-### Example: Next.js
+### Example Next.js
 > Example available in `/example/nextjs-13`
 
 #### Next.js Pages using getServerSideProps

@@ -29,11 +29,13 @@ export type AxiosUIRequestData = {
   body: Object | null;
 };
 export type AxiosUIResponseData = {
+  status: number;
   requestId: string;
   url: string;
   headers: Record<string, string>;
   data: Object;
   time: number;
+  error: unknown | null;
 };
 
 export type InterceptedAxiosRequest = InternalAxiosRequestConfig;

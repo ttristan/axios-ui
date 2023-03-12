@@ -135,7 +135,7 @@ const styles = createStyles({
     wordBreak: "break-all",
   },
 
-  urlNoResponse: {
+  urlWithError: {
     color: colors.red,
   },
 

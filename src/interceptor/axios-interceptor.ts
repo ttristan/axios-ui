@@ -54,7 +54,10 @@ export default class AxiosInterceptor {
             ) {
               return config;
             }
-            if (config.data?.headers?.[key] && config.data.headers[key] !== value) {
+            if (
+              config.data?.headers?.[key] &&
+              config.data.headers[key] !== value
+            ) {
               return config;
             }
           }
@@ -83,28 +86,12 @@ export default class AxiosInterceptor {
 
     this.responseInterceptor = this.axios.interceptors.response.use(
       (response: InterceptedAxiosResponse) => {
-        try {
-          const debugRequestId = response.config._debugRequestId;
-          const debugInterceptId = response.config._debugInterceptId;
-
-          if (this.interceptId !== debugInterceptId) {
-            // do not handle unrelated responses
-            return response;
-          }
-          if (!debugRequestId) {
-            throw `debugRequestId missing in response config: ${JSON.stringify(
-              response.config
-            )}`;
-          }
-          this.addResponse(this.interceptId, debugRequestId, response);
-
-          return response;
-        } catch (error) {
-          console.error("Error in Axios UI (Response Interceptor)", error);
-          return response;
-        }
+        this.addResponse(response);
+        return response;
       },
       (error) => {
+        this.addResponse(error.response, error);
+
         this.clear();
         console.error("Axios UI:", error.message);
         return Promise.resolve(error.response);
@@ -167,26 +154,41 @@ export default class AxiosInterceptor {
     };
   }
 
-  private addResponse(
-    interceptId: string,
-    debugRequestId: string,
-    response: InterceptedAxiosResponse
-  ) {
-    const { config, headers, data } = response;
+  private addResponse(response: InterceptedAxiosResponse, error: unknown | null = null) {
+    try {
+      const { config, headers, data, status } = response;
 
-    this.requests[interceptId] = {
-      ...this.requests[interceptId],
-      [debugRequestId]: {
-        ...this.requests[interceptId][debugRequestId],
-        response: {
-          requestId: debugRequestId,
-          url: config.url ?? "",
-          headers: JSON.parse(JSON.stringify(headers)),
-          data: data as Object,
-          time: Date.now(),
+      const debugRequestId = config._debugRequestId;
+      const debugInterceptId = config._debugInterceptId;
+
+      if (this.interceptId !== debugInterceptId) {
+        // do not handle unrelated responses
+        return;
+      }
+      if (!debugRequestId) {
+        throw `debugRequestId missing in response config: ${JSON.stringify(
+          config
+        )}`;
+      }
+
+      this.requests[this.interceptId] = {
+        ...this.requests[this.interceptId],
+        [debugRequestId]: {
+          ...this.requests[this.interceptId][debugRequestId],
+          response: {
+            status,
+            requestId: debugRequestId,
+            url: config.url ?? "",
+            headers: JSON.parse(JSON.stringify(headers)),
+            data: data as Object,
+            time: Date.now(),
+            error,
+          },
         },
-      },
-    };
+      };
+    } catch (error) {
+      console.error("Error in Axios UI (addResponse)", error);
+    }
   }
 
   public getData(options: { eject: boolean } = { eject: true }): AxiosUIData {

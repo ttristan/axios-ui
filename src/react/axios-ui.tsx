@@ -97,14 +97,14 @@ export default function AxiosUI({
                   selectedRequest={selectedRequest}
                   debugRequestId={debugRequestId}
                   styles={styles}
-                  hasResponse={!!response}
+                  hasError={!!response?.error}
                 />
               </div>
               {selectedRequest === debugRequestId && (
                 <div className="selectedRequest" style={styles.selectedRequest}>
                   <div className="requestDetail" style={styles.requestDetail}>
                     {new Date(request.time).toLocaleString()}{" "}
-                    {response && `(${response.time - request.time}ms)`}
+                    {response && `(${response.time - request.time}ms) (Status: ${response.status})`}
                   </div>
                   <div className="requestDetail" style={styles.requestDetail}>
                     {request.url}
@@ -148,23 +148,23 @@ const Url = ({
   selectedRequest,
   styles,
   renderShortUrl,
-  hasResponse,
+  hasError,
 }: {
   request: AxiosUIRequestData;
   debugRequestId: string;
   selectedRequest: string | null;
   styles: Styles;
   renderShortUrl: AxiosUIProps["renderShortUrl"];
-  hasResponse: boolean;
+  hasError: unknown | null;
 }) => {
   const isSelected = selectedRequest === debugRequestId;
   const style = {
     ...styles.url,
     ...(!isSelected ? styles.urlCollapsed : {}),
-    ...(!hasResponse ? styles.urlNoResponse : {}),
+    ...(hasError ? styles.urlWithError : {}),
   };
   const className =
-    "url" + !isSelected && " urlCollapsed" + !hasResponse && " urlNoResponse";
+    "url" + !isSelected && " urlCollapsed" + hasError && " urlWithError";
 
   return (
     <div className={className} style={style}>
@@ -209,7 +209,7 @@ const Response = ({
         </pre>
       </div>
       <div>
-        <b>Response</b>
+        <b>Response (Status: {response.status})</b>
         <pre className="pre" style={styles.pre}>
           {responseString}
         </pre>

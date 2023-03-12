@@ -95,7 +95,7 @@ export default function Home(pageProps: PageProps) {
           axios
             .put(`/api/put-entry/1`, {
               id: 1,
-              uderId: 1,
+              userId: 1,
               title: `Updated Entry (PUT) (${Math.random().toString()})`,
               body: "Some body",
             })
@@ -156,7 +156,18 @@ export default function Home(pageProps: PageProps) {
         style={{ marginTop: 16 }}
         onClick={() => {
           axios
+            .get(`/api/get-entry/214124`)
+        }}
+      >
+        Test: Failed GET request
+      </button>
+      <button
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          axios
             .put(`/api/put-entry/11224444`, {
+              id: 120030,
+              userId: 1,
               title: `Updated Entry (PUT) (${Math.random().toString()})`,
               body: "Some body",
             })
@@ -166,7 +177,7 @@ export default function Home(pageProps: PageProps) {
             .catch((e) => e);
         }}
       >
-        Test: Failed request
+        Test: Failed PUT request
       </button>
     </div>
   );
