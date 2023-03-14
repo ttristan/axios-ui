@@ -35,7 +35,7 @@ export type AxiosUIResponseData = {
   headers: Record<string, string>;
   data: Object;
   time: number;
-  error: unknown | null;
+  error: string | null;
 };
 
 export type InterceptedAxiosRequest = InternalAxiosRequestConfig;

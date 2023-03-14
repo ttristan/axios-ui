@@ -182,7 +182,7 @@ export default class AxiosInterceptor {
             headers: JSON.parse(JSON.stringify(headers)),
             data: data as Object,
             time: Date.now(),
-            error: error?.toString(),
+            error: error?.toString() ?? null,
           },
         },
       };
