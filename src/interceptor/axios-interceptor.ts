@@ -196,6 +196,13 @@ export default class AxiosInterceptor {
       // eject interceptors when data is consumed to clean up listeners
       this.eject();
     }
-    return this.requests[this.interceptId];
+    const data = this.requests[this.interceptId];
+
+    if (!data) {
+      console.warn('AxiosUI Interceptor getData was called although no data exists.')
+      return {};
+    }
+
+    return data;
   }
 }
