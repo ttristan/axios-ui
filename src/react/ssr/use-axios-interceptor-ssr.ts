@@ -27,11 +27,11 @@ export default function useAxiosInterceptorSSR(axios: Axios) {
       },
       (error) => {
         const axiosUIData = error?.response?.data?.axiosUIData;
-
         if (axiosUIData) {
           delete error.response.data.axiosUIData;
           addData(axiosUIData);
         }
+        throw error;
       }
     );
     intercepted.current = true;
