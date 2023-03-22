@@ -7,6 +7,7 @@ export default function Icon() {
       height="983.000000pt"
       viewBox="0 0 983.000000 983.000000"
       preserveAspectRatio="xMidYMid meet"
+      style={{ height: "100%", width: "100%" }}
     >
       <g
         transform="translate(0.000000,983.000000) scale(0.100000,-0.100000)"

@@ -199,7 +199,6 @@ export default class AxiosInterceptor {
     const data = this.requests[this.interceptId];
 
     if (!data) {
-      console.warn('AxiosUI Interceptor getData was called although no data exists.')
       return {};
     }
 
