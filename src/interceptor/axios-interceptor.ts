@@ -79,8 +79,7 @@ export default class AxiosInterceptor {
       },
       (error) => {
         this.clear();
-        console.error("Axios UI:", error.message);
-        return Promise.resolve(error.config);
+        return Promise.resolve(error?.config);
       }
     );
 
@@ -93,7 +92,6 @@ export default class AxiosInterceptor {
         this.addResponse(error.response, error);
 
         this.clear();
-        console.error("Axios UI:", error.message);
         return Promise.resolve(error.response);
       }
     );
