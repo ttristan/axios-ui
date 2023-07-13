@@ -89,7 +89,9 @@ export default class AxiosInterceptor {
         return response;
       },
       (error) => {
-        this.addResponse(error.response, error);
+        if (error.response) {
+          this.addResponse(error.response, error);
+        }
 
         this.clear();
         return Promise.resolve(error.response);
