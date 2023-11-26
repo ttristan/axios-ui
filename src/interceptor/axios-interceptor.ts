@@ -154,9 +154,19 @@ export default class AxiosInterceptor {
     };
   }
 
-  private addResponse(response: InterceptedAxiosResponse, error: unknown | null = null) {
+  private addResponse(
+    response: InterceptedAxiosResponse,
+    error: unknown | null = null
+  ) {
     try {
+      if (!response) {
+        return;
+      }
       const { config, headers, data, status } = response;
+
+      if (!config || typeof data !== "object" || !data) {
+        return;
+      }
 
       const debugRequestId = config._debugRequestId;
       const debugInterceptId = config._debugInterceptId;
@@ -180,7 +190,7 @@ export default class AxiosInterceptor {
             requestId: debugRequestId,
             url: config.url ?? "",
             headers: JSON.parse(JSON.stringify(headers)),
-            data: data as Object,
+            data: data,
             time: Date.now(),
             error: error?.toString() ?? null,
           },

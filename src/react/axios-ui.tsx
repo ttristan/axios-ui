@@ -33,6 +33,7 @@ export default function AxiosUI({
         };
 
   const [isOpen, setOpen] = React.useState(false);
+  const [isHidden, setHidden] = React.useState(false);
   const [selectedRequest, setSelectedRequest] = React.useState<string | null>(
     null
   );
@@ -52,90 +53,123 @@ export default function AxiosUI({
         <Icon />
       </button>
       {isOpen && (
-        <div className="devtools" style={styles.devtools}>
-          <button
-            className="button"
-            style={styles.button}
-            onClick={() => setOpen(false)}
-          >
-            Close
-          </button>
-          <button
-            className="button clearButton"
-            style={{ ...styles.button, ...styles.clearButton }}
-            onClick={clearData}
-          >
-            Clear
-          </button>
-          {entries.map(([debugRequestId, { request, response }]) => (
-            <React.Fragment key={debugRequestId}>
-              <div
-                onClick={() =>
-                  selectedRequest === debugRequestId
-                    ? setSelectedRequest(null)
-                    : setSelectedRequest(debugRequestId)
-                }
-                className="requestRow"
-                style={styles.requestRow}
+        <div style={styles.devtoolsContainer}>
+          {!isHidden && (
+            <>
+              <button
+                className="button"
+                style={{ ...styles.button, ...styles.closeButton }}
+                onClick={() => setOpen(false)}
               >
-                <div>{new Date(request.time).toLocaleTimeString()}</div>
-                {request.debugToken && (
-                  <div>{request.debugToken.substring(0, 5)}</div>
-                )}
-                <div
-                  className={`method method${request.method}`}
-                  style={{
-                    ...styles.method,
-                    ...getStyle(styles, `method${request.method}`),
-                  }}
-                >
-                  {request.method}
-                </div>
-                <Url
-                  renderShortUrl={renderShortUrl}
-                  request={request}
-                  selectedRequest={selectedRequest}
-                  debugRequestId={debugRequestId}
-                  styles={styles}
-                  hasError={!!response?.error}
-                />
-              </div>
-              {selectedRequest === debugRequestId && (
-                <div className="selectedRequest" style={styles.selectedRequest}>
-                  <div className="requestDetail" style={styles.requestDetail}>
-                    {new Date(request.time).toLocaleString()}{" "}
-                    {response && `(${response.time - request.time}ms) (Status: ${response.status})`}
-                  </div>
-                  <div className="requestDetail" style={styles.requestDetail}>
-                    {request.url}
-                  </div>
-                  <div>
-                    <b>Request Headers</b>
-                    <pre className="pre" style={styles.pre}>
-                      {JSON.stringify(request.headers, null, 2)}
-                    </pre>
-                  </div>
-                  {request.body && <div>
-                    <b>Request Body</b>
-                    <pre className="pre" style={styles.pre}>
-                      {JSON.stringify(request.body, null, 2)}
-                    </pre>
-                  </div>}
-                  {response ? (
-                    <Response
-                      response={response}
+                Close
+              </button>
+
+              <button
+                className="button clearButton"
+                style={{ ...styles.button, ...styles.clearButton }}
+                onClick={clearData}
+              >
+                Clear
+              </button>
+            </>
+          )}
+          <button
+            className="button hideButton"
+            style={{ ...styles.button, ...styles.hideButton }}
+            onClick={() => setHidden(!isHidden)}
+          >
+            {isHidden ? "Show Axios Devtools" : "Hide"}
+          </button>
+          {!isHidden && (
+            <div className="devtools" style={styles.devtools}>
+              {entries.map(([debugRequestId, { request, response }]) => (
+                <React.Fragment key={debugRequestId}>
+                  <div
+                    onClick={() =>
+                      selectedRequest === debugRequestId
+                        ? setSelectedRequest(null)
+                        : setSelectedRequest(debugRequestId)
+                    }
+                    className="requestRow"
+                    style={styles.requestRow}
+                  >
+                    <div>{new Date(request.time).toLocaleTimeString()}</div>
+                    {request.debugToken && (
+                      <div>{request.debugToken.substring(0, 5)}</div>
+                    )}
+                    <div
+                      className={`method method${request.method}`}
+                      style={{
+                        ...styles.method,
+                        ...getStyle(styles, `method${request.method}`),
+                      }}
+                    >
+                      {request.method}
+                    </div>
+                    <Url
+                      renderShortUrl={renderShortUrl}
+                      request={request}
+                      selectedRequest={selectedRequest}
+                      debugRequestId={debugRequestId}
                       styles={styles}
-                      maxInitialResponseLength={maxInitialResponseLength}
+                      hasError={!!response?.error}
                     />
-                  ) : (
-                    <div className="requestFailed" style={styles.requestFailed}>
-                      <i>Request failed</i>
+                  </div>
+                  {selectedRequest === debugRequestId && (
+                    <div
+                      className="selectedRequest"
+                      style={styles.selectedRequest}
+                    >
+                      <div
+                        className="requestDetail"
+                        style={styles.requestDetail}
+                      >
+                        {new Date(request.time).toLocaleString()}{" "}
+                        {response &&
+                          `(${response.time - request.time}ms) (Status: ${
+                            response.status
+                          })`}
+                      </div>
+                      <div
+                        className="requestDetail"
+                        style={styles.requestDetail}
+                      >
+                        {request.url}
+                      </div>
+                      <div>
+                        <b>Request Headers</b>
+                        <pre className="pre" style={styles.pre}>
+                          {JSON.stringify(request.headers, null, 2)}
+                        </pre>
+                      </div>
+                      {request.body && (
+                        <div>
+                          <b>Request Body</b>
+                          <pre className="pre" style={styles.pre}>
+                            {JSON.stringify(request.body, null, 2)}
+                          </pre>
+                        </div>
+                      )}
+                      {response ? (
+                        <Response
+                          response={response}
+                          styles={styles}
+                          maxInitialResponseLength={maxInitialResponseLength}
+                        />
+                      ) : (
+                        <div
+                          className="requestFailed"
+                          style={styles.requestFailed}
+                        >
+                          <i>Request failed</i>
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
-              )}
-            </React.Fragment>
-          ))}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </>

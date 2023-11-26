@@ -6,7 +6,7 @@ const createStyles = <T extends { [name: string]: CSSProperties }>(styles: T) =>
 
 const colors = {
   white: "#fff",
-  icon: '#5A2AE4',
+  icon: "#5A2AE4",
   background: "rgb(34, 46, 62)",
   red: "rgb(232, 68, 68)",
   green: "rgb(33, 182, 33)",
@@ -21,11 +21,18 @@ const colors = {
 };
 
 const styles = createStyles({
-  devtools: {
+  devtoolsContainer: {
     position: "fixed",
     bottom: "0",
     left: "0",
     right: "0",
+    width: "100%",
+    zIndex: "99999",
+    fontSize: "90%",
+    display: "flex",
+  },
+  devtools: {
+    width: "100%",
     height: "40vh",
     minHeight: "20vh",
     maxHeight: "80vh",
@@ -33,13 +40,9 @@ const styles = createStyles({
     color: colors.white,
     padding: "10px",
     overflowY: "auto",
-    width: "100%",
     resize: "vertical",
-    display: "flex",
     flexDirection: "column",
     gap: "10px",
-    zIndex: "99999",
-    fontSize: "90%",
     paddingBottom: "60px",
   },
 
@@ -65,11 +68,17 @@ const styles = createStyles({
     fontWeight: "bold",
     cursor: "pointer",
     fontSize: "80%",
+    left: "10px",
+  },
+
+  closeButton: {
+    left: "60px",
   },
 
   clearButton: {
-    bottom: "36px",
+    left: "117px",
   },
+  hideButton: {},
 
   pre: {
     position: "relative",
@@ -159,14 +168,14 @@ const styles = createStyles({
   },
 
   requestFailed: {
-    color: colors.red
-  }
+    color: colors.red,
+  },
 });
 
 export default styles;
 
 export type StylesKey = keyof typeof styles;
-export type Style = typeof styles[StylesKey];
+export type Style = (typeof styles)[StylesKey];
 export type Styles = typeof styles;
 
 export const getStyle = (styles: Styles, key: string): Style | {} => {
